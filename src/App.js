@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import MovieBox from './MovieBox';
 import './App.css';
 
 function App() {
+
+  const API_URL = "https://api.themoviedb.org/3/movie/popular?api_key=116b86f10dbd93416fcea53981105212";
+
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+      async function fetchMovie() {
+        const request = await fetch(API_URL);
+        const response = await request.json()
+        setMovies(response.results);
+      }
+      fetchMovie();
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {movies.map((movieReq) => <MovieBox/> )}
     </div>
   );
 }
